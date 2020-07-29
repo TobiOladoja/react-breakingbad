@@ -8,24 +8,25 @@ import Search from './components/ui/Search';
 const App = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setisLoading] = useState(true);
+  const [query, setQuery] = useState('');
 
   // Make HTTP request
   useEffect(() => {
     const fetchItems = async () => {
       const result = await axios(
-        `https://www.breakingbadapi.com/api/characters`
+        `https://www.breakingbadapi.com/api/characters?name=${query}`
       );
 
       setItems(result.data);
       setisLoading(false);
     };
     fetchItems();
-  }, []);
+  }, [query]);
 
   return (
     <div className='container'>
       <Header />
-      <Search />
+      <Search qetQuery={(q) => setQuery(q)} />
       <CharacterGrid isLoading={isLoading} items={items} />
     </div>
   );
